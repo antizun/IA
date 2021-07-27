@@ -1,0 +1,28 @@
+import sys
+import collections
+import math
+import numpy
+import scipy
+import scipy.stats
+
+
+sys.stdin.readline()
+li=list(map(int,sys.stdin.readline().strip().split(" ")))
+a = numpy.array(li)
+cntr = collections.Counter(li)
+l=len(li)
+mp = numpy.mean(li)
+sp = a.std()
+
+#r=scipy.stats.norm.interval(0.95,loc=mp,scale=sp/math.sqrt(l))
+
+#oddly enough, the equation above gives the result that is not equal to sample test;
+#seems, that samlpe test has used wikipedia approximation 1.96=F^-1(0.975) :3
+
+d=1.96*sp/math.sqrt(l)
+r=[mp-d,mp+d]
+median=numpy.median(li)
+out=cntr.most_common()
+out.sort(key=lambda k:(-k[1],k[0]))
+
+print ("%.1f\n%.1f\n%d\n%.1f\n%.1f %.1f\n"%(mp,median,out[0][0],sp,r[0],r[1]))

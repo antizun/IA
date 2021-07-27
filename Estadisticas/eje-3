@@ -1,0 +1,17 @@
+import math
+from functools import partial
+import numpy as np
+from scipy import stats
+
+n=input()
+arr = np.array(map(int, raw_input().split()))
+
+mean, median, mode, std = [np.mean(arr), np.median(arr), np.argmax(np.bincount(arr)), np.std(arr)]
+interval = 1.96*std/math.sqrt(n)
+rnd = partial(round, ndigits=1)
+
+print rnd(mean)
+print rnd(median)
+print mode
+print rnd(std)
+print "%.1f %.1f" % (rnd(mean-interval), rnd(mean+interval))

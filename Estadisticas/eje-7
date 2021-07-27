@@ -1,0 +1,60 @@
+import sys
+from collections import Counter
+from math import sqrt
+
+def mn(l):
+    s=sum(l)
+    return s/len(l)
+
+def median(l):
+    s=sorted(l)
+    if len(l)%2:
+        m=int((len(l)/2)+.5)
+        return s[m]
+    else:
+        m=int(len(l)/2)
+        return mn(s[m-1:m+1])
+
+def mode(l):
+    c = Counter(l)
+    w=None
+    for v, c in c.most_common():
+        if w is None:
+            w = (v, c)
+        elif c > w[1]:
+            w = (v, c)
+        elif c == w[1] and v < w[0]:
+            w = (v, c)
+
+    return w[0]
+
+def stddv(l):
+    m=mn(l)
+    std=0
+    for i in l:
+        std = std + (i-m) ** 2
+    std = sqrt(std / float(len(l)))
+    return std
+
+def confidence(l):
+    z= 1.96
+    m= mn(l)
+    s= stddv(l)
+    e= (z*(s/sqrt(len(l))))
+    return m - e, m + e
+
+def main():
+    n = int(sys.stdin.readline())
+
+    nums = [int(x) for x in sys.stdin.readline().split(' ')]
+
+    print("%.1f" % mn(nums))
+    print("%.1f" % median(nums))
+    print("%d" % mode(nums))
+    print("%.1f" % stddv(nums))
+
+    c = confidence(nums)
+    print("%.1f %.1f"%c)
+
+if __name__ == "__main__":
+    main()

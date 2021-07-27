@@ -1,0 +1,32 @@
+length = int(input().strip())
+numbers = []
+numbers.extend([int(i) for i in input().strip().split()])
+
+numbers.sort()
+mean = sum(numbers)/length
+median = (numbers[length//2]+numbers[(length-1)//2])/2
+std = 0
+for num in numbers:
+    std += (mean-num)**2
+std = (std/length)**.5
+upper = mean+1.96*std/length**.5
+lower = mean-1.96*std/length**.5
+unique = set(numbers)
+count = 0
+mode = float('inf')
+for num in unique:
+    temp = numbers.count(num)
+    if temp > count:
+        mode = num
+        count = temp
+    elif temp == count:
+        if num < mode:
+            mode = num
+
+print("%.1f" % mean)
+print("%.1f" % median)
+print("%d" % mode)
+print("%.1f" % std)
+print("%.1f %.1f" % (lower, upper))
+
+    

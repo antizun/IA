@@ -1,0 +1,75 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+import sys
+from sklearn import linear_model
+import numpy as np
+n = map(int, raw_input().strip().split())
+
+x=[]
+y=[]
+test = []
+for j,i in enumerate(sys.stdin):
+    temp = map(float,i.strip().split())
+    if(j<n[1]):
+        x.append(temp[0:n[0]])
+        y.append(temp[n[0]])
+    if(j>n[1]):
+        test.append(temp)
+        
+
+x = np.array(x) 
+y = np.array(y)
+test = np.array(test)
+
+
+clf = linear_model.LinearRegression()
+
+
+clf.fit(x,y)
+for i in clf.predict(test):
+    print("%.2f" % i)
+    
+    
+#print x
+#print y
+#print test
+
+
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+from sklearn import svm
+from sklearn import linear_model
+import numpy as np
+
+svmfile = '/tmp/svm.txt'
+
+first_line = raw_input()
+F = int(first_line.split(' ')[0])
+N = int(first_line.split(' ')[1])
+
+x = []
+y = []
+for i in range(0, N):
+    line = raw_input().split(' ')
+    xi = [float(l) for l in line[0:F]]
+    yi = float(line[F])
+    x.append(xi)
+    y.append(yi)
+
+x = np.array(x)
+y = np.array(y)
+
+#clf = svm.SVR(kernel='poly', degree=2)
+
+clf = linear_model.LinearRegression()
+clf.fit(x, y)
+
+T = int(raw_input())
+
+t = []
+for i in range(0, T):
+    line = raw_input().split(' ')
+    ti = [float(l) for l in line[0:F]]
+    t.append(ti)
+
+t = np.array(t)
+for i in clf.predict(t):
+    print i

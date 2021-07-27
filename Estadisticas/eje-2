@@ -1,0 +1,34 @@
+from numpy import mean
+from numpy import median
+from scipy.stats import mode
+from numpy import std
+from math import sqrt
+
+def main():
+    # Unnecessary information for python!
+    raw_input()
+
+    # Line to array
+    line = [int(x) for x in raw_input().split()]
+    N = len(line)
+    
+    # Mean, m
+    m = mean(line)
+    print m
+    
+    # Median
+    print median(line)
+    
+    # Mode
+    print "%d" % mode(line)[0][0]
+    
+    # Std, s
+    s = std(line)
+    print "%.1f" % s
+    
+    # Confidence Interval
+    h = s/sqrt(N)
+    print "%.1f %.1f" % (m - 1.96*h, m + 1.96*h)
+    
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,76 @@
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn import linear_model
+
+f, n = map(int, raw_input().split())
+X, vector = [], []
+for i in xrange(n):
+    tmp = list(map(float, raw_input().split()))
+    X.append(tmp[:-1])
+    vector.append(tmp[-1])
+    
+poly = PolynomialFeatures(degree=3)
+X_ = poly.fit_transform(X)
+
+clf = linear_model.LinearRegression()
+clf.fit(X_, vector)
+
+for i in xrange(input()):
+    predict = list(map(float, raw_input().split()))
+    predict_ = poly.fit_transform(predict)
+    print clf.predict(predict_)[0]
+	
+--------------------------------------------------------------------	
+	
+import sys
+import numpy as np
+import numpy.linalg
+from sklearn import linear_model
+from sklearn.preprocessing import PolynomialFeatures
+F, N = map(int, raw_input().split())
+X = np.zeros((N, F))
+y = np.zeros((N, 1))
+for i in range(N):
+    t = map(float, raw_input().split())
+    X[i,:] = t[:F]
+    y[i,0] = t[F]
+poly = PolynomialFeatures(degree=3)
+X = poly.fit_transform(X)
+regr = linear_model.LinearRegression()
+regr.fit(X, y)
+d = int(raw_input())
+for _ in range(d):
+    x = np.zeros((1, F))
+    x[0,:] = map(float, raw_input().split())
+    x = poly.fit_transform(x)
+    print max(0.0, min(1e6, float(regr.predict(x))))
+	
+-----------------------------------------------------------
+#[0:1]
+import numpy as np
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn import linear_model
+
+
+def get_matrix(m):
+    data = ''
+    for _ in xrange(m):
+        data += (';' if len(data) else '') + raw_input()
+    return np.matrix(data)
+
+
+n, m = [int(x) for x in raw_input().split(' ')]
+data = get_matrix(m)
+
+X = data[:, :-1]
+y = data[:, -1]
+X_test = get_matrix(input())
+
+poly = PolynomialFeatures(degree=3)
+X_ = poly.fit_transform(X)
+X_test_ = poly.fit_transform(X_test)
+
+clf = linear_model.LinearRegression()
+clf.fit(X_, y)
+
+for i in clf.predict(X_test_)[:, 0]:
+    print i	

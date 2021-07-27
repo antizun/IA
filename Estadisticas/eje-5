@@ -1,0 +1,23 @@
+n = int(input())
+samples = list(map(int, input().split()))
+samples.sort()
+m = sum(samples) / n
+if n%2 :
+    med = samples[n//2]
+else :
+    med = (samples[n//2] + samples[n//2 - 1]) / 2
+std = (sum(map(lambda x: (x-m)**2, samples))/n)**0.5
+mode = 0
+count = 0
+for e in set(samples) :
+    c = samples.count(e)
+    if (count < c or (count==c and e < mode)) :
+        mode = e
+        count = c
+lb = m - 1.96*(std/n**0.5)
+ub = m + 1.96*(std/n**0.5)
+print("{0:.1f}".format(m))
+print("{0:.1f}".format(med))
+print("{0}".format(mode))
+print("{0:.1f}".format(std))
+print("{0:.1f} {1:.1f}".format(lb, ub))

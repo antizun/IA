@@ -1,0 +1,53 @@
+from math import *
+from functools import *
+
+def mean(data):
+    return sum(items) / len(items)
+
+def median(data):
+    count = len(data)
+    if count % 2 == 0:
+        return sum(items[count // 2 - 1:count // 2 + 1]) / 2
+    else:
+        return items[count // 2 + 1]
+    
+def mode(data):
+    hist = {}
+    for i in items:
+        if i in hist:
+            hist[i] += 1
+        else:
+            hist[i] = 0
+    highest_count = 0
+    maxima = []
+    for item in hist.items():
+        if item[1] > highest_count:
+            highest_count = item[1]
+            maxima = [item[0]]
+        elif item[1] == highest_count:
+            maxima.append(item[0])
+    return min(maxima)
+
+def stddev(data, data_mean):
+    return round(sqrt(reduce(lambda acc, x: acc + (x - data_mean) ** 2, data, 0) / len(data)), 1)
+
+def ci(data, data_mean, data_stddev):
+    lower = round(data_mean - 1.96 * data_stddev / sqrt(len(data)), 1)
+    upper = round(data_mean + 1.96 * data_stddev / sqrt(len(data)), 1)
+    return (lower, upper)
+
+count = int(input())
+items = list(map(int, input().split(' ')))
+items.sort()
+
+data_mean = mean(items)
+data_median = median(items)
+data_mode = mode(items)
+data_stddev = stddev(items, data_mean)
+data_ci_lower, data_ci_upper = ci(items, data_mean, data_stddev)
+
+print(data_mean)
+print(data_median)
+print(data_mode)
+print(data_stddev)
+print(data_ci_lower, data_ci_upper)

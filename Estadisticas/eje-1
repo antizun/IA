@@ -1,0 +1,41 @@
+N=input()
+arr=[int(i) for i in raw_input().split()]
+
+##mean
+mean=sum(arr)/float(N)
+print mean
+
+##median
+arrS=sorted(arr)
+if N%2==1: #if N is odd
+    median=arrS[N/2]
+else:#n is even
+    median=(arrS[(N-1)/2]+arrS[N/2])/2.
+
+print median
+
+##mode
+best=0
+mode=-1
+cur=0
+curNum=-1
+for i in arrS:
+    if i!=curNum:
+        cur=1
+        curNum=i
+    else:
+        cur+=1
+    if cur>best:
+        best=cur
+        mode=curNum
+print mode
+
+##standard deviation
+
+SD= (sum(((i-mean)**2 for i in arr)) /float(N))**.5
+print "%.1f"%SD
+
+
+## 95% confidence interval
+
+print "%.1f"%(-1.96*SD/N**.5 +mean), "%.1f"%(1.96*SD/N**.5 +mean)

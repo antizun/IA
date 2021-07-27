@@ -1,0 +1,67 @@
+import sys
+import math
+
+################################################################################
+## Calculates the mean of the dataset.
+################################################################################
+def calMean(values):
+  return sum(values)/float(len(values))
+
+################################################################################
+## Calculates the median of the dataset. Assumes values are sorted
+################################################################################
+def calMedian(values):
+  if not len(values)%2 == 0:
+    return values[(len(values)/2)-1]
+  else:
+    median = values[(len(values)/2)-1]+values[(len(values)/2)]
+    if median%2 == 0:
+      return median/2
+    else:
+      return median/2.0
+
+################################################################################
+## Calculates the mode of the dataset.
+################################################################################
+def calMode(values):
+  x = {}
+  num,val = 0,0
+  for i in values:
+    if i in x:
+      x[i]+=1
+    else:
+      x[i] = 1
+    if x[i] > val:
+      num,val = i,x[i]
+  return num
+
+################################################################################
+## Calculates the standard deviation of the dataset.
+################################################################################
+def calStd(mean,values):
+  std = 0
+  for i in values:
+    std+=(i-mean)*(i-mean)
+  return math.sqrt(std/len(values))
+
+################################################################################
+## Calculate the 95% Confidence Interval
+################################################################################
+def calCi(std,mean,size):
+  return([mean-1.96*(std/math.sqrt(size)),mean+1.96*(std/math.sqrt(size))])
+
+
+size = int(sys.stdin.readline())
+dataset = [int(x) for x in sys.stdin.readline().split(' ')]
+dataset.sort()
+mean = calMean(dataset)
+median = calMedian(dataset)
+mode = calMode(dataset)
+std = calStd(mean,dataset)
+ci = calCi(std,mean,size)
+print(mean if isinstance(mean,int) else '%0.1f'%mean)
+print(median if isinstance(median,int) else '%0.1f'%median)
+print(mode if isinstance(mode,int) else '%0.1f'%mode)
+print(std if isinstance(std,int) else '%0.1f'%std)
+for val in ci:
+  print(val if isinstance(val,int) else '%0.1f'%val),
